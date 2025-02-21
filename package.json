@@ -1,7 +1,16 @@
 {
-  "name": "@22/monorepo",
+  "name": "@acme/monorepo",
   "version": "*",
-  "scripts": {},
+  "scripts": {
+    "build": "pnpm --filter '*' run build",
+    "dev": "sst dev",
+    "format": "pnpm --filter '*' run format",
+    "format:fix": "pnpm --filter '*' run format:fix",
+    "lint": "pnpm --filter '*' run lint",
+    "lint:fix": "pnpm --filter '*' run lint:fix",
+    "typecheck": "pnpm --filter '*' run typecheck",
+    "clean": "git clean -xdf node_modules && pnpm --filter '*' run clean"
+  },
   "engines": {
     "node": ">=22.14.0"
   },

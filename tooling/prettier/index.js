@@ -4,10 +4,13 @@
 
 /** @type { PrettierConfig | SortImportsConfig | TailwindConfig } */
 const config = {
-  plugins: [
-    "@ianvs/prettier-plugin-sort-imports",
-    "prettier-plugin-tailwindcss",
-  ],
+  semi: false,
+  trailingComma: "all",
+  singleQuote: false,
+  printWidth: 100,
+  tabWidth: 2,
+  useTabs: false,
+  plugins: ["@ianvs/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
   importOrder: [
     "<TYPES>",
     "^(react/(.*)$)|^(react$)|^(react-native(.*)$)",
@@ -15,8 +18,8 @@ const config = {
     "^(expo(.*)$)|^(expo$)",
     "<THIRD_PARTY_MODULES>",
     "",
-    "<TYPES>^@22",
-    "^@22/(.*)$",
+    "<TYPES>^@acme",
+    "^@acme/(.*)$",
     "",
     "<TYPES>^[.|..|~]",
     "^~/",
@@ -39,6 +42,6 @@ const config = {
       },
     },
   ],
-};
+}
 
-export default config;
+export default config
