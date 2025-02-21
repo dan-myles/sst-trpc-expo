@@ -1,0 +1,16 @@
+{
+  "name": "@22/monorepo",
+  "version": "*",
+  "scripts": {},
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "packageManager": "pnpm@10.4.1",
+  "devDependencies": {
+    "@types/aws-lambda": "8.10.147",
+    "typescript": "catalog:"
+  },
+  "dependencies": {
+    "sst": "3.9.10"
+  }
+}
