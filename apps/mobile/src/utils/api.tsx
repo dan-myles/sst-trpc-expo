@@ -34,7 +34,7 @@ const api = createTRPCOptionsProxy<AppRouter>({
           const headers = new Map<string, string>()
           headers.set("x-trpc-source", "expo-react")
 
-          // TODO: Set token here?
+          // TODO: Set token here? Authorization: `Bearer ${token}`
 
           return Object.fromEntries(headers)
         },

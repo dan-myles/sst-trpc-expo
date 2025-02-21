@@ -14,7 +14,7 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "typecheck": "tsc --noEmit",
-    "clean": "git clean -xdf .cache .turbo node_modules"
+    "clean": "git clean -xdf dist node_modules"
   },
   "dependencies": {
     "postcss": "^8.5.1",
