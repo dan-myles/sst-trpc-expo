@@ -17,6 +17,17 @@ export default $config({
       handler: "apps/api/src/index.handler",
     });
 
+    const expo = new sst.x.DevCommand("AcmeMobile", {
+      dev: {
+        autostart: true,
+        directory: "apps/mobile",
+        command: "pnpm dev",
+      },
+      environment: {
+        EXPO_PUBLIC_API_URL: api.url,
+      },
+    });
+
     return {
       vpc,
       api: api.url,
