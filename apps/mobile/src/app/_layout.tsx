@@ -1,22 +1,20 @@
-import React from "react";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
+import { Stack } from "expo-router"
 
-import "../styles.css";
+import "../globals.css"
 
+// Catch any errors thrown by the Layout component.
+export { ErrorBoundary } from "expo-router"
 
-export default function RootLayout() {
+export default function RootLayoutNav() {
   return (
-          <SafeAreaProvider>
-            <Stack
-              screenOptions={{
-                headerStyle: {
-                  backgroundColor: "#f472b6",
-                },
-              }}
-            />
-            <StatusBar />
-          </SafeAreaProvider>
-  );
+    <Stack>
+      <Stack.Screen
+        name="index"
+        options={{
+          title: "Home",
+          headerShown: true,
+        }}
+      />
+    </Stack>
+  )
 }

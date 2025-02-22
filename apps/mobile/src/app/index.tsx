@@ -1,20 +1,12 @@
-import React from "react"
 import { Text, View } from "react-native"
+import { verifyInstallation } from "nativewind"
 
-export default function Index() {
+export default function Home() {
+  verifyInstallation()
+
   return (
-    <View className="flex flex-row bg-white">
-      <Text>Hello world!</Text>
-      <Text>Hello world!</Text>
-      <Text>Hello world!</Text>
-      <Text>Hello world!</Text>
-      <Text>Hello world!</Text>
-      <Text>Hello world!</Text>
-      <Text>Hello world!</Text>
-      <Text>Hello world!</Text>
-      <Text>Hello world!</Text>
-      <Text>Hello world!</Text>
-      <Text>Hello world!</Text>
+    <View className="bg-red-500">
+      <Text>Hello!</Text>
     </View>
   )
 }

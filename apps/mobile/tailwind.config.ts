@@ -8,3 +8,5 @@ export default {
   content: ["./src/**/*.{ts,tsx}"],
   presets: [baseConfig, nativewind],
 } satisfies Config
+
+
