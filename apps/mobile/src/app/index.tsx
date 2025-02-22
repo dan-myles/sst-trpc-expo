@@ -8,7 +8,12 @@ export default function Home() {
 
   return (
     <View className="bg-blue-500">
-      <Text>{data}</Text>
+      {data?.map((post) => (
+        <View key={post.id}>
+          <Text>{post.title}</Text>
+          <Text>{post.content}</Text>
+        </View>
+      ))}
     </View>
   )
 }
