@@ -1,5 +1,6 @@
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server"
 import { awsLambdaRequestHandler } from "@trpc/server/adapters/aws-lambda"
+import { APIGatewayProxyEvent, APIGatewayProxyHandlerV2 } from "aws-lambda"
 
 import type { AppRouter } from "./root"
 import { appRouter } from "./root"
@@ -36,10 +37,25 @@ type RouterOutputs = inferRouterOutputs<AppRouter>
  * It's main use case is for AWS Lambda and you will have to check the
  * docs for the adapter you use.
  **/
-const handler = awsLambdaRequestHandler({
+const lambda = awsLambdaRequestHandler({
   router: appRouter,
   createContext: createTRPCContext,
 })
+
+const handler: APIGatewayProxyEvent | APIGatewayProxyHandlerV2 = async (event, context) => {
+  if (event.rawPath.startsWith("/api/v1/trpc")) {
+    event.rawPath = event.rawPath.slice("/api/v1/trpc".length)
+    if (event.rawPath === "") {
+      event.rawPath = "/"
+    }
+  }
+
+  if (event.requestContext.http.path) {
+    event.requestContext.http.path = event.rawPath
+  }
+
+  return lambda(event, context)
+}
 
 export { createTRPCContext, appRouter, createCaller, handler }
 export type { AppRouter, RouterInputs, RouterOutputs }

@@ -10,11 +10,26 @@ export default $config({
     };
   },
   async run() {
-    const vpc = new sst.aws.Vpc("AcmeVPC");
+    const vpc = new sst.aws.Vpc("AcmeVPC", {
+      bastion: true,
+      nat: "ec2",
+    });
 
-    const api = new sst.aws.Function("AcmeTRPC", {
+    const db = new sst.aws.Postgres("AcmeDB", {
+      vpc,
+      proxy: true,
+    });
+
+    const trpc = new sst.aws.Function("AcmeTRPC", {
+      link: [db],
       url: true,
       handler: "apps/api/src/index.handler",
+    });
+
+    const router = new sst.aws.Router("AcmeRouter", {
+      routes: {
+        "/api/v1/trpc/*": trpc.url,
+      },
     });
 
     const expo = new sst.x.DevCommand("AcmeMobile", {
@@ -24,13 +39,22 @@ export default $config({
         command: "pnpm start",
       },
       environment: {
-        EXPO_PUBLIC_API_URL: api.url,
+        EXPO_PUBLIC_API_URL: router.url,
+        EXPO_PUBLIC_TRPC_URL: "/api/v1/trpc/",
+      },
+    });
+
+    const studio = new sst.x.DevCommand("DrizzleStudio", {
+      link: [db],
+      dev: {
+        directory: "packages/db",
+        command: "pnpm non-tunnel-studio",
       },
     });
 
     return {
-      vpc,
-      api: api.url,
+      router: router.url,
+      api: trpc.url,
     };
   },
 });

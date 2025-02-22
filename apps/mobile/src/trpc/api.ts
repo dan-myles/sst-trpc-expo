@@ -27,7 +27,7 @@ const api = createTRPCOptionsProxy<AppRouter>({
       }),
       httpBatchLink({
         transformer: superjson,
-        url: process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:3000",
+        url: process.env.EXPO_PUBLIC_API_URL! + process.env.EXPO_PUBLIC_TRPC_URL!,
         headers() {
           const headers = new Map<string, string>()
           headers.set("x-trpc-source", "expo-react")

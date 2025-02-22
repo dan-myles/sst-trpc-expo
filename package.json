@@ -4,6 +4,10 @@
   "scripts": {
     "build": "pnpm --filter '*' run build",
     "dev": "sst dev",
+    "db:studio": "pnpm --filter @acme/db run studio",
+    "db:push": "pnpm --filter @acme/db run push",
+    "db:migrate": "pnpm --filter @acme/db run migrate",
+    "db:generate": "pnpm --filter @acme/db run generate",
     "format": "pnpm --filter '*' run format",
     "format:fix": "pnpm --filter '*' run format:fix",
     "lint": "pnpm --filter '*' run lint",

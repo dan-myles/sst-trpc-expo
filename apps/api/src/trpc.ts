@@ -28,7 +28,7 @@ export const createTRPCContext = ({
   event,
   context,
 }: CreateAWSLambdaContextOptions<APIGatewayProxyEvent | APIGatewayProxyEventV2>) => {
-  console.log("createTRPCContext >>> ", event, context)
+  console.log("[TRPC] instantiating createTRPCContext >>> ", event.headers, context.awsRequestId)
   return {}
 }
 
