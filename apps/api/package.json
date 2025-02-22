@@ -21,6 +21,7 @@
   },
   "packageManager": "pnpm@10.4.1",
   "dependencies": {
+    "@acme/db": "workspace:*",
     "@trpc/server": "catalog:",
     "aws-lambda": "^1.0.7",
     "superjson": "2.2.2",

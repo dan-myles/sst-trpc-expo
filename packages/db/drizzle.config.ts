@@ -1,15 +1,16 @@
-  import { defineConfig } from "drizzle-kit"
-  import { Resource } from "sst"
+/// <reference types="../../sst-env.d.ts" />
+import { defineConfig } from "drizzle-kit"
+import { Resource } from "sst"
 
-  export default defineConfig({
-    dialect: "postgresql",
-    schema: ["./src/schema.ts"],
-    out: "./migrations",
-    dbCredentials: {
-      host: Resource.AcmeDB.host,
-      port: Resource.AcmeDB.port,
-      user: Resource.AcmeDB.username,
-      password: Resource.AcmeDB.password,
-      database: Resource.AcmeDB.database,
-    },
-  })
+export default defineConfig({
+  dialect: "postgresql",
+  schema: ["./src/schema.ts"],
+  out: "./migrations",
+  dbCredentials: {
+    host: Resource.AcmeDB.host,
+    port: Resource.AcmeDB.port,
+    user: Resource.AcmeDB.username,
+    password: Resource.AcmeDB.password,
+    database: Resource.AcmeDB.database,
+  },
+})

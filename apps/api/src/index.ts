@@ -1,6 +1,6 @@
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server"
 import { awsLambdaRequestHandler } from "@trpc/server/adapters/aws-lambda"
-import { APIGatewayProxyEvent, APIGatewayProxyHandlerV2 } from "aws-lambda"
+import type { APIGatewayProxyEvent, APIGatewayProxyHandlerV2 } from "aws-lambda"
 
 import type { AppRouter } from "./root"
 import { appRouter } from "./root"
