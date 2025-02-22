@@ -11,6 +11,7 @@ import type { APIGatewayProxyEvent, APIGatewayProxyEventV2 } from "aws-lambda"
 import { initTRPC } from "@trpc/server"
 import superjson from "superjson"
 import { ZodError } from "zod"
+import { db  } from "@acme/db/client"
 
 /**
  * 1. CONTEXT
@@ -29,7 +30,9 @@ export const createTRPCContext = ({
   context,
 }: CreateAWSLambdaContextOptions<APIGatewayProxyEvent | APIGatewayProxyEventV2>) => {
   console.log("[TRPC] instantiating createTRPCContext >>> ", event.headers, context.awsRequestId)
-  return {}
+  return {
+    db,
+  }
 }
 
 export type TRPCContext = Awaited<ReturnType<typeof createTRPCContext>>
