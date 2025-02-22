@@ -4,6 +4,6 @@ import { publicProcedure } from "../trpc"
 
 export const postRouter = {
   all: publicProcedure.query(() => {
-    return "hello"
+    return "Hello World!"
   }),
 } satisfies TRPCRouterRecord

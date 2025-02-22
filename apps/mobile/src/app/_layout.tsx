@@ -1,12 +1,13 @@
 import { Stack } from "expo-router"
+import { QueryClientProvider } from "@tanstack/react-query"
+
+import { queryClient } from "~/trpc/api"
 
 import "../globals.css"
 
-// Catch any errors thrown by the Layout component.
-export { ErrorBoundary } from "expo-router"
-
 export default function RootLayoutNav() {
   return (
+    <QueryClientProvider client={queryClient}>
     <Stack>
       <Stack.Screen
         name="index"
@@ -16,5 +17,6 @@ export default function RootLayoutNav() {
         }}
       />
     </Stack>
+    </QueryClientProvider>
   )
 }

@@ -1,12 +1,14 @@
 import { Text, View } from "react-native"
-import { verifyInstallation } from "nativewind"
+import { useQuery } from "@tanstack/react-query"
+
+import { api } from "~/trpc/api"
 
 export default function Home() {
-  verifyInstallation()
+  const { data } = useQuery(api.post.all.queryOptions())
 
   return (
-    <View className="bg-red-500">
-      <Text>Hello!</Text>
+    <View className="bg-blue-500">
+      <Text>{data}</Text>
     </View>
   )
 }

@@ -21,7 +21,7 @@ export default $config({
       dev: {
         autostart: true,
         directory: "apps/mobile",
-        command: "pnpm dev",
+        command: "pnpm start",
       },
       environment: {
         EXPO_PUBLIC_API_URL: api.url,
