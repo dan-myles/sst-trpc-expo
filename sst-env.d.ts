@@ -5,6 +5,11 @@
 
 declare module "sst" {
   export interface Resource {
+    "AcmeAuth": {
+      "name": string
+      "type": "sst.aws.Function"
+      "url": string
+    }
     "AcmeDB": {
       "database": string
       "host": string
@@ -25,6 +30,10 @@ declare module "sst" {
     "AcmeVPC": {
       "bastion": string
       "type": "sst.aws.Vpc"
+    }
+    "BETTER_AUTH_SECRET": {
+      "type": "sst.sst.Secret"
+      "value": string
     }
   }
 }

@@ -1,0 +1,31 @@
+{
+  "name": "@acme/auth",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild --bundle --outfile=./dist/index.js --platform=node --target=node20 ./src/index.ts",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "format:fix": "prettier --write . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false",
+    "clean": "git clean -xdf dist node_modules"
+  },
+  "dependencies": {
+    "@acme/db": "workspace:*",
+    "better-auth": "^1.1.19",
+    "hono": "^4.7.2"
+  },
+  "devDependencies": {
+    "@acme/eslint-config": "workspace:*",
+    "@acme/prettier-config": "workspace:*",
+    "@acme/tsconfig": "workspace:*",
+    "@ianvs/prettier-plugin-sort-imports": "catalog:",
+    "esbuild": "^0.21.4",
+    "eslint": "catalog:",
+    "npm-run-all2": "^6.2.0",
+    "prettier": "catalog:",
+    "prettier-plugin-tailwindcss": "catalog:",
+    "typescript": "catalog:"
+  },
+  "prettier": "@acme/prettier-config"
+}

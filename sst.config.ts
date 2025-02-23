@@ -10,6 +10,12 @@ export default $config({
     };
   },
   async run() {
+    const BETTER_AUTH_SECRET = new sst.Secret("BETTER_AUTH_SECRET");
+    const BASE_URL =
+      $app.stage === "prodution"
+        ? "projectacme.link"
+        : `${$app.stage}.projectacme.link`;
+
     const vpc = new sst.aws.Vpc("AcmeVPC", {
       bastion: true,
       nat: "ec2",
@@ -26,25 +32,37 @@ export default $config({
       handler: "apps/api/src/index.handler",
     });
 
-    const router = new sst.aws.Router("AcmeRouter", {
-      routes: {
-        "/api/v1/trpc/*": trpc.url,
+    const auth = new sst.aws.Function("AcmeAuth", {
+      link: [db],
+      url: true,
+      handler: "apps/auth/src/index.handler",
+      environment: {
+        BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
+        BETTER_AUTH_URL: `https://${BASE_URL}`,
       },
     });
 
-    const expo = new sst.x.DevCommand("AcmeMobile", {
+    const router = new sst.aws.Router("AcmeRouter", {
+      domain: BASE_URL,
+      routes: {
+        "/api/v1/trpc/*": trpc.url,
+        "/api/v1/auth/*": auth.url,
+      },
+    });
+
+    new sst.x.DevCommand("AcmeMobile", {
       dev: {
         autostart: true,
         directory: "apps/mobile",
         command: "pnpm start",
       },
       environment: {
-        EXPO_PUBLIC_API_URL: router.url,
+        EXPO_PUBLIC_API_URL: BASE_URL,
         EXPO_PUBLIC_TRPC_URL: "/api/v1/trpc/",
       },
     });
 
-    const studio = new sst.x.DevCommand("DrizzleStudio", {
+    new sst.x.DevCommand("DrizzleStudio", {
       link: [db],
       dev: {
         directory: "packages/db",
@@ -55,6 +73,7 @@ export default $config({
     return {
       router: router.url,
       api: trpc.url,
+      auth: auth.url,
     };
   },
 });
