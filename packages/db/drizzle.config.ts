@@ -4,7 +4,7 @@ import { Resource } from "sst"
 
 export default defineConfig({
   dialect: "postgresql",
-  schema: ["./src/schema.ts"],
+  schema: ["./src/schema/**/*.schema.ts"],
   out: "./migrations",
   dbCredentials: {
     host: Resource.AcmeDB.host,

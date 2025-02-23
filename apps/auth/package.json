@@ -1,6 +1,12 @@
 {
   "name": "@acme/auth",
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./src/index.ts"
+    }
+  },
   "scripts": {
     "build": "esbuild --bundle --outfile=./dist/index.js --platform=node --target=node20 ./src/index.ts",
     "format": "prettier --check . --ignore-path ../../.gitignore",
@@ -12,7 +18,8 @@
   },
   "dependencies": {
     "@acme/db": "workspace:*",
-    "better-auth": "^1.1.19",
+    "@better-auth/expo": "catalog:",
+    "better-auth": "catalog:",
     "hono": "^4.7.2"
   },
   "devDependencies": {

@@ -1,10 +1,10 @@
 import { Hono } from "hono"
 import { handle } from "hono/aws-lambda"
 
+import { auth } from "./auth"
+
 const app = new Hono()
+app.on(["POST", "GET"], "/api/v1/auth/**", (c) => auth.handler(c.req.raw))
 
-app.get("/", (c) => {
-  return c.text("Hello Hono!")
-})
-
-export const handler = handle(app)
+const handler = handle(app)
+export { handler, auth }

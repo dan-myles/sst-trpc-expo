@@ -58,7 +58,6 @@ export default $config({
       },
       environment: {
         EXPO_PUBLIC_API_URL: BASE_URL,
-        EXPO_PUBLIC_TRPC_URL: "/api/v1/trpc/",
       },
     });
 
