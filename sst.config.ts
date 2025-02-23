@@ -38,7 +38,7 @@ export default $config({
       handler: "apps/auth/src/index.handler",
       environment: {
         BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
-        BETTER_AUTH_URL: `https://${BASE_URL}`,
+        BETTER_AUTH_URL: `https://${BASE_URL}/api/v1/auth`,
       },
     });
 

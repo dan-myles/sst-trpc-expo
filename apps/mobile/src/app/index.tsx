@@ -1,20 +1,11 @@
-import { Text, View } from "react-native"
-import { useQuery } from "@tanstack/react-query"
-
-import { api } from "~/trpc/api"
+import { View } from "react-native"
+import { Link } from "expo-router"
 
 export default function Home() {
-  const { data } = useQuery(api.post.all.queryOptions())
-
   return (
     <View className="">
-      {data?.map((post) => (
-        <View key={post.id}>
-          <Text>{post.title}</Text>
-          <Text>{post.content}</Text>
-        </View>
-      ))}
-      <Text>{process.env.EXPO_PUBLIC_API_URL}</Text>
+      <Link href="/sign-in">TO SIGN IN</Link>
+      <Link href="/sign-up">TO SIGN UP</Link>
     </View>
   )
 }

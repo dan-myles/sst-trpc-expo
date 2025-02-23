@@ -16,4 +16,5 @@ export const auth = betterAuth({
     enabled: true,
   },
   plugins: [expo()],
+  trustedOrigins: ["projectacme://"],
 })
