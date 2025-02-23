@@ -8,10 +8,12 @@
  */
 import type { CreateAWSLambdaContextOptions } from "@trpc/server/adapters/aws-lambda"
 import type { APIGatewayProxyEvent, APIGatewayProxyEventV2 } from "aws-lambda"
-import { initTRPC } from "@trpc/server"
+import { initTRPC, TRPCError } from "@trpc/server"
 import superjson from "superjson"
 import { ZodError } from "zod"
-import { db  } from "@acme/db/client"
+
+import { auth } from "@acme/auth"
+import { db } from "@acme/db/client"
 
 /**
  * 1. CONTEXT
@@ -25,13 +27,24 @@ import { db  } from "@acme/db/client"
  *
  * @see https://trpc.io/docs/server/context
  */
-export const createTRPCContext = ({
+export const createTRPCContext = async ({
   event,
-  context,
 }: CreateAWSLambdaContextOptions<APIGatewayProxyEvent | APIGatewayProxyEventV2>) => {
-  console.log("[TRPC] instantiating createTRPCContext >>> ", event.headers, context.awsRequestId)
+  const headers = new Headers()
+  for (const key in event.headers) {
+    if (!event.headers) break
+    if (!event.headers.hasOwnProperty(key)) continue
+    if (event.headers[key] === undefined || event.headers[key] === null) continue
+    if (typeof event.headers[key] !== "string") continue
+
+    headers.set(key, event.headers[key])
+  }
+
+  const session = await auth.api.getSession({ headers: headers })
+
   return {
     db,
+    session,
   }
 }
 
@@ -96,6 +109,22 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
 })
 
 /**
+ * Middleware for verifying the session is valid and has a user
+ **/
+const authMiddleware = t.middleware(async ({ ctx, next }) => {
+  if (!ctx.session?.user) {
+    throw new TRPCError({ code: "UNAUTHORIZED" })
+  }
+
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable (So our type knows it's not null)
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  })
+})
+
+/**
  * Public (unauthed) procedure
  *
  * This is the base piece you use to build new queries and mutations on your
@@ -103,3 +132,13 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
  * can still access user session data if they are logged in
  */
 export const publicProcedure = t.procedure.use(timingMiddleware)
+
+/**
+ * Protected (authenticated) procedure
+ *
+ * If you want a query or mutation to ONLY be accessible to logged in users, use this. It verifies
+ * the session is valid and guarantees `ctx.session.user` is not null.
+ *
+ * @see https://trpc.io/docs/procedures
+ */
+export const protectedProcedure = t.procedure.use(timingMiddleware).use(authMiddleware)

@@ -8,10 +8,12 @@ export default function App() {
   const [password, setPassword] = useState("")
 
   const handleLogin = async () => {
-    await authClient.signIn.email({
+    const res = await authClient.signIn.email({
       email,
       password,
     })
+
+    console.log("res", res)
   }
 
   return (

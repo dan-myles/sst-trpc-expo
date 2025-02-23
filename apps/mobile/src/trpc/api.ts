@@ -5,6 +5,8 @@ import superjson from "superjson"
 
 import type { AppRouter } from "@acme/api"
 
+import { authClient } from "~/utils/auth-client"
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -31,6 +33,12 @@ const api = createTRPCOptionsProxy<AppRouter>({
         url: `https://${process.env.EXPO_PUBLIC_API_URL}/api/v1/trpc`,
         headers() {
           const headers = new Map<string, string>()
+          const cookies = authClient.getCookie()
+
+          if (cookies) {
+            headers.set("Cookie", cookies)
+          }
+
           headers.set("x-trpc-source", "expo-react")
           return Object.fromEntries(headers)
         },
