@@ -1,22 +1,17 @@
-import { Stack } from "expo-router"
+import { SafeAreaProvider } from "react-native-safe-area-context"
+import { Slot } from "expo-router"
 import { QueryClientProvider } from "@tanstack/react-query"
 
 import { queryClient } from "~/trpc/api"
 
 import "../globals.css"
 
-export default function RootLayoutNav() {
+export default function RootLayout() {
   return (
-    <QueryClientProvider client={queryClient}>
-    <Stack>
-      <Stack.Screen
-        name="index"
-        options={{
-          title: "Home",
-          headerShown: true,
-        }}
-      />
-    </Stack>
-    </QueryClientProvider>
+    <SafeAreaProvider>
+      <QueryClientProvider client={queryClient}>
+        <Slot />
+      </QueryClientProvider>
+    </SafeAreaProvider>
   )
 }

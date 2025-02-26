@@ -58,6 +58,10 @@ export default $config({
      * This is our secondary API that we'll use for authentication and authorization.
      * This is a separate small service that handles callbacks & syncing user
      * state with our database.
+     *
+     * We have the sns:Publish permission because we're using SNS to send SMS
+     * messages to our users. Phone number verification can take a couple weeks
+     * so using a service like Twilio may be a better option.
      */
     const auth = new sst.aws.Function("AcmeAuth", {
       link: [db],
@@ -67,11 +71,17 @@ export default $config({
         BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
         BETTER_AUTH_URL: `https://${BASE_URL}/api/v1/auth`,
       },
+      permissions: [
+        {
+          actions: ["sns:Publish"],
+          resources: ["*"],
+        },
+      ],
     });
 
     /**
      * Router
-     * This is our "API Gateway" that we'll use to route traffic to our APIs.
+     * This is our "API Gateway" that we'll use to route traffic to our Lambdas/services.
      */
     const router = new sst.aws.Router("AcmeRouter", {
       domain: BASE_URL,

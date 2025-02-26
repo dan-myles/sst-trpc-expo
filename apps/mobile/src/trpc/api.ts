@@ -36,6 +36,9 @@ const api = createTRPCOptionsProxy<AppRouter>({
           const cookies = authClient.getCookie()
 
           if (cookies) {
+            // NOTE: Here is where we are setting our authentication cookie
+            // to the headers of our request. If this is not set, then we
+            // will not be able to authenticate our requests.
             headers.set("Cookie", cookies)
           }
 

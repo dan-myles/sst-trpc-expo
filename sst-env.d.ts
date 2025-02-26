@@ -5,36 +5,6 @@
 
 declare module "sst" {
   export interface Resource {
-    "AcmeAuth": {
-      "name": string
-      "type": "sst.aws.Function"
-      "url": string
-    }
-    "AcmeDB": {
-      "database": string
-      "host": string
-      "password": string
-      "port": number
-      "type": "sst.aws.Postgres"
-      "username": string
-    }
-    "AcmeRouter": {
-      "type": "sst.aws.Router"
-      "url": string
-    }
-    "AcmeTRPC": {
-      "name": string
-      "type": "sst.aws.Function"
-      "url": string
-    }
-    "AcmeVPC": {
-      "bastion": string
-      "type": "sst.aws.Vpc"
-    }
-    "BETTER_AUTH_SECRET": {
-      "type": "sst.sst.Secret"
-      "value": string
-    }
   }
 }
 /// <reference path="sst-env.d.ts" />
